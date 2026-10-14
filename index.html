@@ -1,0 +1,154 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Camille Le Bihan Notes</title>
+<meta name="description" content="Detailed notes on VC, finance and startups by Camille Le Bihan.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+:root {
+  --page: #f6f4ee;
+  --ink: #141414;
+  --muted: #77746c;
+  --rule: #141414;
+  --rule-soft: #d9d5cb;
+  --sky: #cfe6fa;
+  --cobalt: #1d3fd8;
+  --orange: #ff4d12;
+  --sans: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; background: var(--page); }
+body { background: var(--page); color: var(--ink); font-family: var(--sans); line-height: 1.4; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 clamp(16px, 3vw, 32px); min-height: 100vh; display: flex; flex-direction: column; }
+
+/* Top bar */
+.top { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 18px 0; font-size: 14px; }
+.top nav { display: flex; gap: 14px; flex-wrap: wrap; justify-content: flex-end; }
+.top nav a:hover, .top nav a:focus-visible { color: var(--orange); outline: none; }
+
+/* Intro */
+.intro { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; padding: clamp(48px, 9vw, 120px) 0 clamp(40px, 6vw, 72px); }
+.intro h1 { font-weight: 400; font-size: clamp(2rem, 4.2vw, 3.6rem); line-height: 1.08; letter-spacing: -.03em; max-width: 20ch; }
+.intro h1 em { font-style: normal; color: var(--orange); }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tags span { background: var(--sky); color: var(--cobalt); padding: 5px 9px; }
+.tags span.o { background: transparent; color: var(--orange); box-shadow: inset 0 0 0 1px var(--orange); }
+
+/* Index */
+.index-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 12px; }
+.group { display: grid; grid-template-columns: minmax(0, 1fr); border-top: 1px solid var(--rule); padding-top: 10px; }
+.group-label { padding: 6px 0 18px; display: grid; gap: 6px; align-content: start; }
+.group-label h3 { font-weight: 400; font-size: clamp(1.7rem, 2.6vw, 2.2rem); line-height: 1.1; letter-spacing: -.015em; }
+.group-label p { color: var(--muted); font-size: 14px; max-width: 32ch; }
+.group-label .mono { color: var(--muted); }
+.entries { list-style: none; }
+.entry + .entry { border-top: 1px solid var(--rule-soft); }
+.entry a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px; padding: 10px 0 16px; }
+.entry .kicker { font-size: 11px; }
+.entry .kicker b { font-weight: 500; color: var(--cobalt); }
+.entry .title { grid-column: 1; font-size: clamp(1.6rem, 2.6vw, 2.3rem); line-height: 1.12; letter-spacing: -.02em; transition: color .15s; }
+.entry .who { grid-column: 1; color: var(--muted); font-size: 14px; }
+.entry .arrow { grid-column: 2; grid-row: 1 / span 3; align-self: start; font-size: 15px; transition: transform .15s, color .15s; }
+.entry a:hover .title, .entry a:focus-visible .title { color: var(--orange); }
+.entry a:hover .arrow, .entry a:focus-visible .arrow { color: var(--orange); transform: translate(2px, -2px); }
+.entry a:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; }
+.empty { padding: 24px 0; color: var(--muted); }
+
+/* Footer */
+.foot { margin-top: auto; display: grid; grid-template-columns: 1fr; gap: 10px; padding: clamp(72px, 10vw, 140px) 0 22px; font-size: 13px; }
+.foot .links { display: flex; gap: 14px; flex-wrap: wrap; }
+.foot a:hover, .foot a:focus-visible { color: var(--orange); outline: none; }
+
+@media (min-width: 760px) {
+  .group { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; }
+  .intro { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; align-items: end; }
+  .intro .tags { justify-content: flex-start; }
+  .foot { grid-template-columns: 1fr 1fr auto; align-items: end; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <a href="./"><b>Camille Le Bihan</b> — Notes</a>
+    <nav aria-label="Links" id="topnav"><a href="#index">Index</a></nav>
+  </header>
+
+  <section class="intro" aria-label="About">
+    <h1>Detailed notes from VC bootcamps, fund partners and conferences. <em>New every week.</em></h1>
+    <div class="tags mono"><span class="o" id="issue">N°00</span><span>Publishing weekly</span><span id="updated">Latest —</span><span>Paris, FR</span></div>
+  </section>
+
+  <section id="index" aria-label="All notes">
+    <div class="index-head"><span class="mono">Index</span><span class="mono" id="count2"></span></div>
+    <div id="groups"></div>
+  </section>
+
+  <footer class="foot">
+    <span>Camille Le Bihan ©<span id="yr">2026</span></span>
+    <span class="links" id="footlinks"></span>
+    <span class="mono">Notes by Camille Le Bihan</span>
+  </footer>
+
+</div>
+
+<script src="data/notes.js"></script>
+<script>
+(function () {
+  var notes = (window.NOTES || []).slice().sort(function (a, b) { return (b.date || "").localeCompare(a.date || ""); });
+  var series = window.SERIES || {};
+  var links = window.LINKS || {};
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function dm(d) { var p = (d || "").split("-"); return p.length === 3 ? (+p[2]) + "." + (+p[1]) + "." : ""; }
+  function full(d) { var p = (d || "").split("-"); return p.length === 3 ? p[2] + "." + p[1] + "." + p[0] : "—"; }
+
+  var n = notes.length;
+  document.getElementById("issue").textContent = "N°" + (n < 10 ? "0" : "") + n;
+  document.getElementById("count2").textContent = n + (n === 1 ? " note" : " notes");
+  document.getElementById("updated").textContent = "Latest " + (n ? full(notes[0].date) : "—");
+  document.getElementById("yr").textContent = n ? notes[0].date.slice(0, 4) : new Date().getFullYear();
+
+  /* group by series, ordered by most recent note */
+  var order = [], groups = {};
+  notes.forEach(function (x) {
+    var k = x.series || "Other";
+    if (!groups[k]) { groups[k] = []; order.push(k); }
+    groups[k].push(x);
+  });
+  var html = order.map(function (k) {
+    var items = groups[k].map(function (x) {
+      var ext = /^https?:/.test(x.url || "");
+      return '<li class="entry"><a href="' + esc(x.url) + '"' + (ext ? ' target="_blank" rel="noopener"' : "") + '>' +
+        '<span class="kicker mono">' + esc(dm(x.date)) + " — <b>" + esc(x.label || "Note") + "</b></span>" +
+        '<span class="title">' + esc(x.title) + "</span>" +
+        (x.speakers ? '<span class="who">With ' + esc(x.speakers) + "</span>" : "") +
+        '<span class="arrow" aria-hidden="true">↗</span></a></li>';
+    }).join("");
+    return '<div class="group"><div class="group-label"><h3>' + esc(k) + "</h3>" +
+      (series[k] ? "<p>" + esc(series[k]) + "</p>" : "") +
+      '<span class="mono">' + groups[k].length + (groups[k].length === 1 ? " note" : " notes") + "</span></div>" +
+      '<ul class="entries">' + items + "</ul></div>";
+  }).join("");
+  document.getElementById("groups").innerHTML = html || '<p class="empty">No notes yet.</p>';
+
+  var named = [["substack", "Substack"], ["linkedin", "LinkedIn"], ["github", "GitHub"]].filter(function (l) { return links[l[0]]; });
+  var linkHtml = named.map(function (l) { return '<a href="' + esc(links[l[0]]) + '" target="_blank" rel="noopener">' + l[1] + "</a>"; }).join("");
+  document.getElementById("footlinks").innerHTML = linkHtml;
+  document.getElementById("topnav").innerHTML = '<a href="#index">Index</a>' + linkHtml;
+})();
+</script>
+</body>
+</html>
+
+</body></html>
