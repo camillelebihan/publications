@@ -9,6 +9,14 @@
    ========================================================= */
 window.NOTES = [
   {
+    date: "2026-10-21",
+    series: "Baby VC Bootcamp #14",
+    label: "Session 3 · Detailed notes",
+    title: "Sourcing and Screening with Hexa",
+    speakers: "Samuel Boggio",
+    url: "notes/baby-vc-14-session-3-hexa.html"
+  },
+  {
     date: "2026-10-14",
     series: "Baby VC Bootcamp #14",
     label: "Session 2 · Detailed notes",
@@ -17,7 +25,7 @@ window.NOTES = [
     url: "notes/baby-vc-14-session-2-daphni.html"
   },
   {
-    date: "2026-10-08",
+    date: "2026-10-07",
     series: "Baby VC Bootcamp #14",
     label: "Session 1 · Detailed notes",
     title: "Inside early-stage VC with Kima Ventures",
