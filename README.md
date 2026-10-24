@@ -13,6 +13,7 @@ A weekly VC training programme in Paris, with guest funds.
 
 | # | Session | Speakers |
 |---|---------|----------|
+| 3 | [Sourcing and Screening with Hexa](https://camillelebihan.github.io/publications/notes/baby-vc-14-session-3-hexa.html) | Samuel Boggio |
 | 2 | [How to build a VC fund with Daphni](https://camillelebihan.github.io/publications/notes/baby-vc-14-session-2-daphni.html) | Paul Bazin & Étienne Renoux |
 | 1 | [Inside early-stage VC with Kima Ventures](https://camillelebihan.github.io/publications/notes/baby-vc-14-session-1-kima.html) | Alexis Robert & Edouard Goût |
 
