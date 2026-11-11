@@ -13,9 +13,9 @@ A weekly VC training programme in Paris, with guest funds.
 
 | # | Session | Speakers |
 |---|---------|----------|
-| 6 | [Diligence with Raise](https://camillelebihan.github.io/publications/notes/baby-vc-14-session-6-raise.html) | Ugo Varrasso & Myriam Rouverand |
-| 5 | [Due Diligence with Iris](https://camillelebihan.github.io/publications/notes/baby-vc-14-session-5-iris.html) | Ugo Varrasso & Myriam Rouverand |
-| 4 | [Due Diligence with Breega](https://camillelebihan.github.io/publications/notes/baby-vc-14-session-4-breega.html) | Ugo Varrasso & Myriam Rouverand |
+| 6 | [The art of getting a founder to pick you with Raise](https://camillelebihan.github.io/publications/notes/baby-vc-14-session-6-raise.html) | Nicolas Chow & Elisabetta Sakiotis |
+| 5 | [Growth investing & due diligence with Iris](https://camillelebihan.github.io/publications/notes/baby-vc-14-session-5-iris.html) | Nicolas Herschtel |
+| 4 | [Early-stage due diligence with Breega](https://camillelebihan.github.io/publications/notes/baby-vc-14-session-4-breega.html) | Ugo Varrasso, Myriam Rouverand & Gauthier Mutschler |
 | 3 | [Sourcing and Screening with Hexa](https://camillelebihan.github.io/publications/notes/baby-vc-14-session-3-hexa.html) | Samuel Boggio |
 | 2 | [How to build a VC fund with Daphni](https://camillelebihan.github.io/publications/notes/baby-vc-14-session-2-daphni.html) | Paul Bazin & Étienne Renoux |
 | 1 | [Inside early-stage VC with Kima Ventures](https://camillelebihan.github.io/publications/notes/baby-vc-14-session-1-kima.html) | Alexis Robert & Edouard Goût |
