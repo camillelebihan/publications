@@ -8,6 +8,30 @@
    Notes with the same "series" are grouped together on the site.
    ========================================================= */
 window.NOTES = [
+     {
+    date: "2026-11-10",
+    series: "Baby VC Bootcamp #14",
+    label: "Session 6 · Detailed notes",
+    title: "The art of getting a founder to pick you with Raise",
+    speakers: "Nicolas Chow & Elisabetta Sakiotis",
+    url: "notes/baby-vc-14-session-6-raise.html"
+  },
+     {
+    date: "2026-11-04",
+    series: "Baby VC Bootcamp #14",
+    label: "Session 5 · Detailed notes",
+    title: "Growth investing & due diligence with IRIS",
+    speakers: "Nicolas Herschtel",
+    url: "notes/baby-vc-14-session-5-iris.html"
+  },
+     {
+    date: "2026-10-28",
+    series: "Baby VC Bootcamp #14",
+    label: "Session 4 · Detailed notes",
+    title: "Early-stage due diligence with Breega",
+    speakers: "Myriam Rouverand, Ugo Varrasso & Gauthier Mutschler",
+    url: "notes/baby-vc-14-session-4-breega.html"
+  },
   {
     date: "2026-10-21",
     series: "Baby VC Bootcamp #14",
