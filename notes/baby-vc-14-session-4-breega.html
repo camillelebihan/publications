@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4NG103LKXG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-4NG103LKXG');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Breega × Baby VC #14</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap">
+<style>
+/*
+  Baby VC notes — reusable design system ("app" style)
+  Layout: app top bar + big title, a yellow hero card with stacked blue/white bands, then numbered chapter cards in one column (sidebar index on desktop, chip index on phone/tablet).
+  Palette: neutrals (mist page, white cards, ink) + pops (cobalt = lead, orange + yellow = accents) + two tonal pairs used once each (forest/mint, berry/pink). Each card uses one treatment: white, blue, orange, yellow, green, berry, ink.
+  Reuse for another session: keep tokens + classes, change the content.
+*/
+:root {
+  --bg: #e9e9ec;
+  --card: #ffffff;
+  --inset: #f2f2f5;
+  --ink: #17171a;
+  --muted: #6b6b75;
+  --line: #e1e1e6;
+  --yellow: #f7e94b;
+  --yellow-soft: #fcf5c4;
+  --blue: #4466ee;
+  --blue-soft: #e3e9ff;
+  --orange: #fc5a1a;
+  --orange-soft: #ffe6da;
+  --green: #1f6a48;
+  --mint: #7fe2ad;
+  --berry: #560c22;
+  --pink: #f6aecb;
+  --sans: "Urbanist", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #111114; --card: #1c1c21; --inset: #26262c; --ink: #f2f2f5; --muted: #a2a2ad; --line: #303038; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg: #111114; --card: #1c1c21; --inset: #26262c; --ink: #f2f2f5; --muted: #a2a2ad; --line: #303038; color-scheme: dark; }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+html, body { overflow-x: clip; }
+body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-weight: 500; font-size: clamp(16px, .3vw + 14.8px, 18.5px); line-height: 1.6; overflow-wrap: break-word; -webkit-text-size-adjust: 100%; }
+img { max-width: 100%; }
+.wrap { width: 100%; max-width: 1240px; margin: 0 auto; padding-inline: clamp(12px, 3vw, 32px); padding-block: clamp(14px, 3vw, 32px) 56px; display: grid; gap: clamp(10px, 1.6vw, 18px); }
+.wrap > *, .layout > *, main > * { min-width: 0; }
+
+/* ---------- type ---------- */
+.mono { font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+h1, h2 { font-family: var(--sans); font-weight: 600; margin: 0; text-wrap: balance; letter-spacing: -.025em; }
+h2 { font-size: clamp(1.9rem, 2.4vw + 1.1rem, 3.1rem); line-height: 1.05; }
+h1 em, h2 em { font-style: normal; background: var(--hl, var(--yellow)); color: var(--hl-fg, #17171a); padding: 0 .16em; border-radius: .22em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+h3 { font-weight: 700; font-size: clamp(1.1rem, .3vw + 1.02rem, 1.25rem); margin: 24px 0 6px; line-height: 1.3; }
+h4 { font-weight: 700; font-size: 1.05rem; margin: 0; line-height: 1.3; }
+p { margin: 0 0 12px; }
+p:last-child { margin-bottom: 0; }
+.card p, .card li, .qa p, .box p, .rung p { text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
+strong { font-weight: 800; }
+
+/* ---------- card treatments ---------- */
+.card { --fg: var(--ink); --head: var(--ink); --sub: var(--muted); --panel: var(--inset); --rule: var(--line); --btn: var(--ink); --btn-fg: var(--card); --hl: var(--yellow); --hl-fg: #17171a;
+  background: var(--card); color: var(--fg); border-radius: clamp(26px, 3.4vw, 40px); padding: clamp(22px, 4vw, 48px); scroll-margin-top: 72px; }
+.card.yellow { background: var(--yellow); --fg: #17171a; --head: #17171a; --sub: rgba(23,23,26,.62); --panel: rgba(255,255,255,.62); --rule: rgba(23,23,26,.16); --btn: #17171a; --btn-fg: var(--yellow); --hl: var(--blue); --hl-fg: #fff; }
+.card.blue { background: var(--blue); --fg: #eef1ff; --head: #ffffff; --sub: rgba(238,241,255,.75); --panel: rgba(255,255,255,.13); --rule: rgba(255,255,255,.25); --btn: #ffffff; --btn-fg: var(--blue); --hl: var(--yellow); --hl-fg: #17171a; }
+.card.orange { background: var(--orange); --fg: #17171a; --head: #17171a; --sub: rgba(23,23,26,.62); --panel: rgba(255,255,255,.6); --rule: rgba(23,23,26,.16); --btn: #17171a; --btn-fg: #ffffff; --hl: #ffffff; --hl-fg: #17171a; }
+.card.green { background: var(--green); --fg: #e5f4eb; --head: var(--mint); --sub: rgba(229,244,235,.72); --panel: rgba(255,255,255,.09); --rule: rgba(255,255,255,.18); --btn: var(--mint); --btn-fg: #0f3a26; --hl: var(--mint); --hl-fg: #0f3a26; }
+.card.berry { background: var(--berry); --fg: #fbe8ef; --head: var(--pink); --sub: rgba(251,232,239,.7); --panel: rgba(255,255,255,.08); --rule: rgba(255,255,255,.16); --btn: var(--pink); --btn-fg: var(--berry); --hl: var(--pink); --hl-fg: var(--berry); }
+.card.ink { background: #17171a; --fg: #ececf0; --head: #ffffff; --sub: rgba(236,236,240,.65); --panel: rgba(255,255,255,.08); --rule: rgba(255,255,255,.16); --btn: var(--yellow); --btn-fg: #17171a; --hl: var(--yellow); --hl-fg: #17171a; }
+.card h2, .card h3 { color: var(--head); }
+
+.kicker { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; color: var(--sub); margin-bottom: clamp(12px, 2vw, 20px); }
+.kicker .num { display: inline-grid; place-items: center; min-width: 40px; height: 40px; padding: 0 12px; border-radius: 999px; background: var(--btn); color: var(--btn-fg); line-height: 1; letter-spacing: .02em; }
+.lede { font-size: 1.06em; margin-top: clamp(12px, 2vw, 18px); }
+
+/* black round icon buttons — glyph always centred */
+.circle { width: 42px; height: 42px; border-radius: 50%; flex: none; display: inline-grid; place-items: center; background: var(--btn, var(--ink)); color: var(--btn-fg, var(--card)); font-size: 14px; font-weight: 700; line-height: 1; padding: 0; text-align: center; font-variant-numeric: tabular-nums; }
+.circle svg { display: block; }
+
+.panel { background: var(--panel); border-radius: 24px; padding: clamp(16px, 2.6vw, 24px); margin: 16px 0; }
+.panel.warn { background: var(--orange-soft); color: #17171a; --head: #17171a; }
+.tag { display: inline-block; font-size: 11.5px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; background: var(--btn); color: var(--btn-fg); border-radius: 999px; padding: 4px 12px; margin-bottom: 12px; }
+.panel.warn .tag { background: #17171a; color: #fff; }
+.takeaway { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: center; background: var(--blue); color: #fff; border-radius: 26px; padding: 14px 20px 14px 14px; margin: 16px 0; }
+.takeaway .circle { background: #fff; color: var(--blue); }
+.takeaway p { margin: 0; text-align: left; }
+.takeaway b { font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; display: block; opacity: .8; margin-bottom: 2px; }
+ul.list { margin: 0 0 12px; padding-left: 1.1em; display: grid; gap: 8px; }
+ul.list li::marker { color: var(--head); }
+
+/* pull quote */
+.pull { background: var(--blue); color: #eef1ff; border-radius: 28px; padding: clamp(20px, 3.4vw, 36px); margin: 20px 0 4px; display: grid; gap: 12px; }
+.pull q { font-weight: 600; font-size: clamp(1.45rem, 1.8vw + 1rem, 2.3rem); line-height: 1.12; letter-spacing: -.02em; color: #fff; quotes: "“" "”"; }
+.pull q em { font-style: normal; background: var(--yellow); color: #17171a; padding: 0 .14em; border-radius: .2em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.pull .mono { color: rgba(238,241,255,.8); }
+.pull.light { background: var(--panel); color: var(--fg); } .pull.light q { color: var(--head); } .pull.light .mono { color: var(--sub); }
+
+/* ---------- hero (app screen) ---------- */
+.hero { display: grid; gap: clamp(14px, 2.4vw, 24px); }
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.logo { width: 48px; height: 48px; border-radius: 50%; background: #17171a; color: var(--yellow); display: grid; place-items: center; font-weight: 800; font-size: 14px; line-height: 1; letter-spacing: .02em; flex: none; }
+.top-chips { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.pill { display: inline-flex; align-items: center; height: 40px; padding: 0 16px; border-radius: 999px; background: var(--card); color: var(--ink); font-size: 14px; font-weight: 700; white-space: nowrap; }
+.pill.dark { background: #17171a; color: #fff; }
+.pill.backlink { gap: 6px; text-decoration: none; padding-left: 12px; }
+.pill.backlink:hover, .pill.backlink:focus-visible { background: #17171a; color: #fff; outline: none; }
+.hero-title { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; padding-inline: clamp(2px, 1vw, 8px); }
+.hero h1 { font-size: clamp(2.3rem, 5.6vw + .4rem, 5.4rem); line-height: 1.12; max-width: 14ch; --hl: var(--yellow); }
+.hero-title .circle { width: clamp(52px, 6vw, 72px); height: clamp(52px, 6vw, 72px); background: #17171a; color: var(--yellow); }
+.hero-title .circle:hover, .hero-title .circle:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+.hero-card { background: var(--yellow); color: #17171a; border-radius: clamp(30px, 4vw, 44px); overflow: hidden; display: grid; }
+.hero-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: clamp(20px, 3.4vw, 36px) clamp(20px, 3.4vw, 40px) 0; }
+.faces { display: flex; }
+.faces img { width: clamp(56px, 7vw, 76px); height: clamp(56px, 7vw, 76px); border-radius: 50%; object-fit: cover; border: 4px solid var(--yellow); filter: grayscale(1) contrast(1.06); }
+.faces img + img { margin-left: -16px; }
+.hero-card-body { padding: clamp(28px, 6vw, 72px) clamp(20px, 3.4vw, 40px) clamp(40px, 5vw, 60px); display: grid; gap: 10px; }
+.hero-card-body .pill { justify-self: start; height: 34px; font-size: 13px; }
+.hero-big { font-weight: 600; font-size: clamp(1.7rem, 2.6vw + 1rem, 3rem); line-height: 1.05; letter-spacing: -.02em; margin: 6px 0 0; text-wrap: balance; }
+.hero-sub { margin: 0; color: rgba(23,23,26,.68); }
+.band { display: flex; align-items: center; justify-content: space-between; gap: 14px; text-decoration: none; font-weight: 600; font-size: clamp(1.1rem, .8vw + .9rem, 1.4rem); line-height: 1.2; padding: clamp(20px, 2.6vw, 28px) clamp(22px, 3.4vw, 40px) calc(clamp(20px, 2.6vw, 28px) + 26px); border-radius: clamp(28px, 3.6vw, 40px) clamp(28px, 3.6vw, 40px) 0 0; margin-top: -26px; position: relative; }
+.band:last-child { padding-bottom: clamp(20px, 2.6vw, 28px); }
+.band.b1 { background: var(--blue); color: #fff; }
+.band.b2 { background: #ffffff; color: #17171a; box-shadow: 0 6px 0 4px #ffffff; }
+.band svg { flex: none; }
+.band:hover span:first-child, .band:focus-visible span:first-child { text-decoration: underline; text-underline-offset: 4px; }
+.band:focus-visible { outline: none; }
+
+/* ---------- summary ---------- */
+.sum-list { list-style: none; margin: clamp(14px, 2vw, 22px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 10px; counter-reset: s; }
+.sum-list li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: start; background: var(--panel); border-radius: 24px; padding: 16px 18px 16px 14px; text-align: left; }
+.sum-list li::before { counter-increment: s; content: counter(s); width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--btn); color: var(--btn-fg); font-size: 14px; font-weight: 700; line-height: 1; }
+.read-more { display: inline-flex; align-items: center; gap: 12px; margin-top: 18px; background: var(--btn); color: var(--btn-fg); text-decoration: none; font-weight: 700; border-radius: 999px; padding: 8px 8px 8px 22px; }
+.read-more .circle { background: var(--btn-fg); color: var(--btn); width: 36px; height: 36px; }
+.read-more:hover, .read-more:focus-visible { outline: 2px solid var(--btn); outline-offset: 3px; }
+
+/* ---------- layout + index ---------- */
+.layout { display: grid; gap: clamp(10px, 1.6vw, 18px); }
+main { display: grid; gap: clamp(10px, 1.6vw, 18px); }
+.index { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 8px; margin-inline: calc(clamp(12px, 3vw, 32px) * -1); padding-inline: clamp(12px, 3vw, 32px); }
+.index-label { display: none; }
+.index ul { list-style: none; margin: 0; padding: 0 0 2px; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+.index ul::-webkit-scrollbar { display: none; }
+.index a { display: flex; align-items: center; gap: 8px; white-space: nowrap; font-size: 14px; font-weight: 700; color: var(--ink); text-decoration: none; background: var(--card); border-radius: 999px; padding: 8px 14px 8px 8px; }
+.index a span { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--inset); font-size: 11px; line-height: 1; color: var(--muted); }
+.index a:hover, .index a:focus-visible { background: #17171a; color: #fff; outline: none; }
+.index a:hover span, .index a:focus-visible span { background: var(--yellow); color: #17171a; }
+
+/* ---------- stats ---------- */
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 18px 0 4px; }
+.tile { border-radius: 26px; padding: clamp(14px, 2vw, 20px); display: grid; gap: 6px; align-content: space-between; min-height: clamp(120px, 12vw, 156px); min-width: 0; }
+.tile .big { font-weight: 700; font-size: clamp(1.7rem, 2vw + 1rem, 2.6rem); line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.tile .lbl { font-size: 13.5px; line-height: 1.35; }
+.tile.a { background: var(--yellow); color: #17171a; }
+.tile.b { background: var(--blue); color: #fff; }
+.tile.c { background: var(--orange); color: #17171a; }
+.tile.d { background: #17171a; color: #fff; } .tile.d .big { color: var(--yellow); }
+
+/* ---------- financing ---------- */
+.fin { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 18px 0; }
+.fin-card { display: grid; grid-row: span 3; grid-template-rows: subgrid; gap: 8px; min-width: 0; }
+.fin-card > h4 { font-weight: 700; font-size: clamp(1.35rem, .8vw + 1.1rem, 1.7rem); letter-spacing: -.02em; line-height: 1.1; padding: 6px 6px 2px; align-self: end; display: flex; align-items: center; gap: 10px; }
+.fin-card > h4::before { content: ""; width: 14px; height: 14px; border-radius: 50%; background: var(--dot, var(--yellow)); flex: none; }
+.fin-card:nth-child(2) { --dot: var(--blue); } .fin-card:nth-child(3) { --dot: var(--orange); } .fin-card:nth-child(4) { --dot: #17171a; }
+.box { border-radius: 22px; padding: 16px 18px; min-width: 0; }
+.box .mono { display: block; margin-bottom: 6px; color: var(--muted); }
+.box p { font-size: .95em; line-height: 1.5; }
+.box.def { background: var(--inset); }
+.box.who { background: var(--yellow-soft); color: #17171a; }
+.box.who .mono { color: rgba(23,23,26,.6); }
+
+/* ---------- fun fact ---------- */
+.fact { position: relative; background: #17171a; color: #ececf0; border-radius: clamp(26px, 3.4vw, 40px); padding: clamp(22px, 4vw, 48px); overflow: hidden; }
+.fact::after { content: ""; position: absolute; inset: auto 0 0 0; height: 38%; background-image: linear-gradient(rgba(247,233,75,.35) 1px, transparent 1px), linear-gradient(90deg, rgba(247,233,75,.35) 1px, transparent 1px); background-size: 34px 34px; pointer-events: none; }
+.fact > * { position: relative; z-index: 1; }
+.fact .mono { display: inline-block; background: var(--yellow); color: #17171a; border-radius: 999px; padding: 5px 12px; }
+.fact .big { font-weight: 600; font-size: clamp(1.6rem, 2vw + 1rem, 2.6rem); line-height: 1.1; letter-spacing: -.02em; margin: 16px 0 14px; text-align: left; color: #fff; }
+.fact .big em { font-style: normal; color: var(--yellow); }
+.fact .small { opacity: .85; padding-bottom: clamp(40px, 8vw, 90px); text-align: justify; }
+
+/* ---------- economics diagram ---------- */
+.flow { display: grid; gap: 8px; margin: 20px 0; grid-template-areas: "lp" "e1" "fund" "e2" "st" "e3" "mc"; }
+.node { border-radius: 24px; padding: 16px 18px; background: var(--inset); min-width: 0; display: grid; gap: 4px; align-content: start; }
+.node .mono { color: var(--muted); }
+.node b { font-weight: 700; font-size: 1.45rem; letter-spacing: -.02em; line-height: 1.05; }
+.node small { font-size: .88em; line-height: 1.45; }
+.node.fund { background: var(--blue); color: #eef1ff; } .node.fund .mono { color: rgba(238,241,255,.75); } .node.fund b { color: #fff; }
+.node.mc { background: #17171a; color: #ececf0; } .node.mc .mono { color: var(--yellow); }
+.node.st { background: var(--yellow); color: #17171a; } .node.st .mono { color: rgba(23,23,26,.6); }
+.edge { display: grid; gap: 4px; align-content: center; justify-items: center; text-align: center; padding: 4px 6px; font-size: 13.5px; line-height: 1.3; color: var(--muted); }
+.edge span { display: block; }
+.edge strong { color: var(--ink); font-weight: 700; }
+.edge .h { display: none; } .edge .v { display: block; }
+.n-lp { grid-area: lp; } .e1 { grid-area: e1; } .n-fund { grid-area: fund; } .e2 { grid-area: e2; } .n-st { grid-area: st; } .e3 { grid-area: e3; } .n-mc { grid-area: mc; }
+.fees { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 10px; margin: 16px 0; }
+.fee { background: var(--inset); border-radius: 24px; padding: 18px; }
+.fee:first-child { background: var(--yellow-soft); color: #17171a; }
+.fee:last-child { background: var(--blue-soft); color: #17171a; }
+.fee .pct { font-weight: 700; font-size: clamp(2rem, 2vw + 1.3rem, 2.8rem); letter-spacing: -.03em; line-height: 1; display: block; margin-bottom: 8px; }
+
+/* ---------- power law ---------- */
+.bars { display: flex; align-items: flex-end; gap: clamp(3px, .6vw, 7px); height: clamp(110px, 16vw, 190px); margin: 20px 0 8px; }
+.bars span { flex: 1; border-radius: 10px 10px 4px 4px; background: rgba(255,255,255,.16); min-height: 6px; }
+.bars span.hit { background: var(--pink); }
+.bars span.hit2 { background: var(--orange); }
+.bars-cap { display: flex; justify-content: space-between; gap: 10px; color: var(--sub); margin-bottom: 16px; }
+
+/* ---------- roles ---------- */
+.rungs { display: grid; gap: 10px; margin: 18px 0; }
+.rung { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; background: var(--panel); border-radius: 26px; padding: 18px 20px 18px 16px; }
+.rung:nth-child(1) .circle { background: var(--yellow); color: #17171a; }
+.rung:nth-child(2) .circle { background: var(--orange); color: #17171a; }
+.rung:nth-child(3) .circle { background: var(--green); color: var(--mint); }
+.rung:nth-child(4) .circle { background: var(--blue); color: #fff; }
+.rung:nth-child(5) .circle { background: #17171a; color: var(--yellow); }
+.rung-body { display: grid; gap: 10px; min-width: 0; }
+.rung-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; }
+.rung-head b { font-weight: 700; font-size: 1.45rem; letter-spacing: -.02em; line-height: 1.05; color: var(--head); }
+.rung-head .mono { color: var(--sub); }
+.rung-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 20px; }
+.rung-cols .mono { display: block; color: var(--sub); margin-bottom: 2px; }
+.rung p { font-size: .95em; line-height: 1.5; margin: 0; }
+
+/* ---------- duo ---------- */
+.duo { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 10px; margin: 16px 0; }
+.mini { background: var(--panel); border-radius: 26px; padding: 20px; min-width: 0; }
+.mini h4 { font-weight: 700; font-size: 1.5rem; letter-spacing: -.02em; line-height: 1.05; margin-bottom: 8px; color: var(--head); }
+.mini.solid { background: var(--btn); color: var(--btn-fg); } .mini.solid h4 { color: var(--btn-fg); }
+.mini .pct { font-weight: 700; font-size: clamp(2.4rem, 2vw + 1.6rem, 3.2rem); letter-spacing: -.04em; line-height: 1; display: block; margin-bottom: 6px; }
+
+/* ---------- exits ---------- */
+.rows { display: grid; gap: 8px; margin: 16px 0 0; }
+.row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: start; background: var(--panel); border-radius: 26px; padding: 16px 20px 16px 16px; }
+.row b { display: block; font-weight: 700; font-size: 1.35rem; letter-spacing: -.02em; line-height: 1.1; color: var(--head); margin-bottom: 4px; }
+.row p { margin: 0; text-align: justify; }
+
+/* ---------- Q&A ---------- */
+.qa-wrap { display: grid; gap: clamp(10px, 1.6vw, 18px); scroll-margin-top: 72px; }
+.qa-head { padding: clamp(10px, 2vw, 20px) 6px 0; }
+.qa-head .kicker { color: var(--muted); }
+.qa-list { display: grid; gap: clamp(10px, 1.4vw, 14px); }
+.qa { background: var(--card); border-radius: 30px; padding: clamp(20px, 3vw, 30px); min-width: 0; }
+.qa-top { display: flex; gap: 14px; align-items: flex-start; justify-content: space-between; }
+.qa-top h3 { margin: 0; font-weight: 700; font-size: clamp(1.2rem, .6vw + 1.05rem, 1.45rem); letter-spacing: -.015em; line-height: 1.2; min-width: 0; }
+.qa .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 14px; }
+.qa .chip { font-size: 12px; font-weight: 700; background: var(--inset); color: var(--muted); border-radius: 999px; padding: 4px 12px; }
+.qa .circle { background: #17171a; color: #fff; width: 36px; height: 36px; }
+.who-tag { display: inline-block; font-size: 11.5px; font-weight: 700; letter-spacing: .03em; padding: 2px 10px; border-radius: 999px; background: var(--yellow); color: #17171a; margin-right: 6px; vertical-align: 1px; }
+.who-tag.e { background: var(--orange); }
+
+/* chips (LPs) */
+.chips-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 16px; }
+.chips-row span { font-size: 13px; font-weight: 700; background: var(--panel); border-radius: 999px; padding: 6px 14px; }
+
+/* links */
+.links { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 10px; margin-top: 16px; }
+.link { display: flex; justify-content: space-between; align-items: center; gap: 14px; background: var(--panel); color: var(--fg); text-decoration: none; border-radius: 26px; padding: 18px 16px 18px 20px; min-width: 0; border: 2px solid transparent; }
+.link > div { min-width: 0; }
+.link b { display: block; font-weight: 700; font-size: 1.2rem; letter-spacing: -.01em; line-height: 1.2; color: var(--head); }
+.link small { display: block; font-size: .88em; line-height: 1.4; margin-top: 4px; }
+.link:hover, .link:focus-visible { border-color: #17171a; outline: none; }
+
+/* footer */
+.foot { background: #17171a; color: #ececf0; border-radius: clamp(26px, 3.4vw, 40px); padding: clamp(28px, 5vw, 56px) clamp(22px, 5vw, 56px); display: grid; gap: 22px; }
+.foot .mono { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; opacity: .7; }
+.foot .credit { font-weight: 600; font-size: clamp(2rem, 3vw + 1rem, 3.6rem); letter-spacing: -.03em; line-height: 1.02; color: #fff; }
+.foot .credit em { font-style: normal; background: var(--yellow); color: #17171a; padding: 0 .14em; border-radius: .2em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.foot p { margin: 0; opacity: .78; }
+.sub { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; border-top: 1px solid rgba(255,255,255,.16); padding-top: 20px; }
+.sub p { flex: 1 1 260px; }
+.sub-btn { display: inline-flex; align-items: center; gap: 12px; background: var(--yellow); color: #17171a; text-decoration: none; font-weight: 700; border-radius: 999px; padding: 8px 8px 8px 22px; max-width: 100%; }
+.sub-btn .circle { background: #17171a; color: var(--yellow); width: 36px; height: 36px; }
+.sub-btn:hover, .sub-btn:focus-visible { outline: 2px solid var(--yellow); outline-offset: 3px; }
+
+/* ---------- Phone ---------- */
+@media (max-width: 699px) {
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tile .lbl { font-size: 12.5px; }
+  .hero h1 { max-width: none; }
+  .hero-title .circle { display: none; }
+  .fin { grid-template-columns: 1fr; }
+  .fin-card { grid-row: auto; grid-template-rows: none; }
+  .rung { grid-template-columns: 1fr; gap: 10px; padding: 16px; }
+  .rung-cols { grid-template-columns: 1fr; }
+  .qa-top .circle { display: none; }
+  .sub { flex-direction: column; align-items: stretch; }
+  .sub-btn, .read-more { justify-content: space-between; }
+  .read-more { display: flex; }
+  .top-chips .pill { height: 36px; padding: 0 12px; font-size: 13px; }
+}
+@media (min-width: 860px) {
+  .flow { grid-template-columns: minmax(0, 1fr) minmax(110px, .7fr) minmax(0, 1fr) minmax(110px, .7fr) minmax(0, 1fr); grid-template-areas: "lp e1 fund e2 st" ". . e3 . ." ". . mc . ."; align-items: stretch; }
+  .edge .h { display: block; } .edge .v { display: none; }
+  .e3 { padding: 6px 0; }
+}
+/* ---------- Computer ---------- */
+@media (min-width: 1100px) {
+  .layout { grid-template-columns: 210px minmax(0, 1fr); column-gap: 24px; align-items: start; }
+  .index { top: calc(env(safe-area-inset-top, 0px) + 20px); margin: 0; padding: 18px 12px; background: var(--card); border-radius: 28px; }
+  .index-label { display: block; color: var(--muted); margin: 0 6px 10px; }
+  .index ul { flex-direction: column; overflow: visible; gap: 2px; }
+  .index a { background: transparent; padding: 6px 10px 6px 6px; }
+  .qa-list { display: block; columns: 2; column-gap: 14px; }
+  .qa-list .qa { break-inside: avoid; margin-bottom: 14px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* ---------- Session 2 additions ---------- */
+.faces .init { width: clamp(56px, 7vw, 76px); height: clamp(56px, 7vw, 76px); border-radius: 50%; border: 4px solid var(--yellow); background: #17171a; color: var(--yellow); display: grid; place-items: center; font-weight: 700; font-size: clamp(1.05rem, 1vw + .8rem, 1.4rem); letter-spacing: -.01em; }
+.faces .init + .init { margin-left: -16px; background: var(--blue); color: #fff; }
+.jcurve { margin: 18px 0 8px; background: var(--inset); border-radius: 26px; padding: clamp(14px, 2vw, 22px); }
+.jcurve svg { display: block; width: 100%; height: auto; overflow: visible; }
+.jcurve .axis { stroke: var(--muted); stroke-width: 2; stroke-dasharray: 6 6; vector-effect: non-scaling-stroke; }
+.jcurve .curve { fill: none; stroke: var(--blue); stroke-width: 5; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.jcurve .dot { fill: var(--orange); } .jcurve .dot.hi { fill: var(--blue); }
+.jcurve text { fill: var(--muted); font: 600 15px var(--sans); }
+.fin.models .fin-card:nth-child(5) { --dot: var(--green); } .fin.models .fin-card:nth-child(6) { --dot: var(--pink); }
+@media (max-width: 699px) { .jcurve text { font-size: 22px; } }
+@media (min-width: 1100px) { .fin.three { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* ---------- Session 3 additions ---------- */
+#outreach .fin-card:nth-child(3) { --dot: #17171a; }
+.funnel { display: grid; gap: 0; margin: 18px 0 10px; border-top: 1px solid var(--rule); }
+.f-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr) auto; gap: 14px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--rule); }
+.f-bar { display: flex; justify-content: center; }
+.f-bar span { display: grid; place-items: center; height: 38px; border-radius: 12px; background: #17171a; color: #fff; font-weight: 700; font-size: 1.05rem; min-width: 52px; }
+.f-row.deal .f-bar span { background: var(--orange); }
+.f-stage b { display: block; font-weight: 700; font-size: 1.05rem; line-height: 1.15; color: var(--head); }
+.f-stage .mono { color: var(--muted); }
+.f-rej { font-weight: 700; font-size: clamp(1.2rem, 1vw + 1rem, 1.6rem); letter-spacing: -.02em; text-align: right; color: var(--head); }
+.f-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr) auto; gap: 14px; padding: 0 0 8px; color: var(--muted); }
+.f-head span:last-child { text-align: right; }
+.q10 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 16px 0; }
+.q10 div { background: var(--inset); border-radius: 18px; padding: 14px 16px; min-width: 0; }
+.q10 .mono { color: var(--muted); display: block; margin-bottom: 4px; }
+.q10 b { display: block; font-weight: 700; font-size: 1.05rem; line-height: 1.15; margin-bottom: 4px; }
+.q10 p { font-size: .9em; line-height: 1.4; text-align: left; }
+.q10 div.hl { background: #17171a; color: #fff; } .q10 div.hl .mono { color: var(--yellow); }
+.law { margin: 16px 0; border-top: 1px solid var(--rule); }
+.law p { padding: 14px 0; border-bottom: 1px solid var(--rule); font-size: clamp(1.15rem, 1vw + .95rem, 1.5rem); line-height: 1.25; letter-spacing: -.01em; text-align: left; }
+.law p em { font-style: normal; font-weight: 700; }
+.law p:last-child em { background: var(--yellow); color: #17171a; padding: 0 .2em; border-radius: .2em; }
+.law-src { color: var(--sub, var(--muted)); margin-bottom: 12px; display: block; }
+.tools { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 4px; }
+.tools span { background: var(--panel); border-radius: 999px; padding: 6px 12px; font-size: 13px; }
+.tools span b { font-weight: 700; }
+.code { background: #17171a; color: #ececf0; border-radius: 14px; padding: 12px 14px; font-family: ui-monospace, Menlo, monospace; font-size: 12.5px; line-height: 1.6; margin-top: 8px; }
+.code i { font-style: normal; color: var(--yellow); }
+.cmds { display: grid; gap: 6px; margin-top: 8px; }
+.cmds span { font-family: ui-monospace, Menlo, monospace; font-size: 12.5px; background: var(--inset); border-radius: 10px; padding: 6px 10px; color: var(--muted); }
+@media (min-width: 860px) { .q10 { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+@media (max-width: 699px) { .f-row, .f-head { grid-template-columns: 74px minmax(0, 1fr) auto; gap: 10px; } .f-bar span { height: 34px; } }
+
+/* ---------- Session 4 additions ---------- */
+.stage-table { margin-top: 16px; border-top: 1px solid var(--rule); }
+.st-row { display: grid; grid-template-columns: minmax(0,1.1fr) repeat(3, minmax(0,1fr)); gap: 10px; padding: 11px 0; border-bottom: 1px solid var(--rule); font-size: .95em; line-height: 1.35; }
+.st-row b { font-weight: 700; color: var(--head); }
+.st-head { font-family: var(--mono, ui-monospace, monospace); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--sub, var(--muted)); }
+.st-row .bet { font-weight: 700; color: var(--hl, var(--yellow)); letter-spacing: .03em; }
+#scorecard .q10 b { margin: 0; }
+@media (max-width: 699px) { .st-row { grid-template-columns: minmax(0,1fr) minmax(0,1fr); } .st-row b, .st-head span:first-child { grid-column: 1 / -1; } .st-head span:nth-child(n+2) { display: none; } .st-row span::before { content: attr(data-l); display: block; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; opacity: .65; } }
+@media (min-width: 860px) { #scorecard .q10 { grid-template-columns: repeat(4, minmax(0,1fr)); } }
+</style>
+</head>
+<body>
+
+<div class="wrap" lang="en">
+
+  <header class="hero">
+    <div class="topbar">
+      <a class="pill backlink" href="../index.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>All notes</a>
+      <div class="top-chips"><span class="pill dark">Baby VC · Batch #14</span><span class="pill">Session 4</span></div>
+    </div>
+    <div class="hero-title">
+      <h1>Early-stage due diligence with <em>Breega.</em></h1>
+      <a class="circle" href="#summary" aria-label="Go to the executive summary"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-top">
+        <div class="faces"><img src="data:image/jpeg;base64,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" alt="Myriam Rouverand"><img src="data:image/jpeg;base64,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" alt="Ugo Varrasso"><img src="data:image/jpeg;base64,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" alt="Gauthier Mutschler"></div>
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#17171a" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+      </div>
+      <div class="hero-card-body">
+        <span class="pill">Detailed notes</span>
+        <p class="hero-big">With Myriam Rouverand, Ugo Varrasso &amp; Gauthier Mutschler</p>
+        <p class="hero-sub">Associate, Principal and Analyst at Breega, the European VC backing founders from pre-seed to Series B.</p>
+      </div>
+      <a class="band b1" href="#summary"><span>Executive summary · 2 min</span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="band b2" href="#scorecard"><span>The 8-pillar scorecard</span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </header>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <section class="card blue" id="summary">
+    <div class="kicker mono"><span>Executive summary</span><span>2-minute read</span></div>
+    <h2>Session 4 in <em>six points.</em></h2>
+    <ol class="sum-list">
+      <li>Breega looks for five things: a top team on the topic, an acute pain with a clear "why now", tangible defensibility, traction that proves willingness to pay, and a model that can return the fund.</li>
+      <li>From first call to term sheet takes 2 to 5 weeks: sourcing, a 30-minute discovery call, a 45-minute check call, the investment committee, then due diligence.</li>
+      <li>Due diligence exists to dig into the committee's doubts and confirm or kill the thesis, by crossing three sources: founders, the ecosystem and documents.</li>
+      <li>The deliverable is a scorecard in eight pillars: team, reference calls, competition, market, business plan, unit economics, exit and cap table, ending in a go / no-go.</li>
+      <li>Never take the founders' numbers as given: rebuild the market size and the business plan yourself, then compare.</li>
+      <li>Expectations depend on stage: at pre-seed most pillars are a bet; by Series A+ each needs proof.</li>
+    </ol>
+    <div class="pull light" style="margin-top:16px">
+      <q>Is this the right team to build a <em>€1B startup?</em></q>
+      <span class="mono">Breega, the question behind the team pillar</span>
+    </div>
+    <a class="read-more" href="#speakers">Read the full notes <span class="circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></span></a>
+  </section>
+
+  <div class="layout">
+    <nav class="index" aria-label="Contents">
+      <div class="index-label mono">Contents</div>
+      <ul>
+        <li><a href="#speakers"><span>01</span>Speakers</a></li>
+        <li><a href="#lookfor"><span>02</span>What they look for</a></li>
+        <li><a href="#process"><span>03</span>The process</a></li>
+        <li><a href="#scorecard"><span>04</span>Due diligence</a></li>
+        <li><a href="#team"><span>05</span>Team</a></li>
+        <li><a href="#refs"><span>06</span>Reference calls</a></li>
+        <li><a href="#competition"><span>07</span>Competition</a></li>
+        <li><a href="#market"><span>08</span>Market</a></li>
+        <li><a href="#bp"><span>09</span>Business plan</a></li>
+        <li><a href="#unit"><span>10</span>Unit economics</a></li>
+        <li><a href="#exitcap"><span>11</span>Exit &amp; cap table</a></li>
+        <li><a href="#stages"><span>12</span>By stage</a></li>
+        <li><a href="#debrief"><span>13</span>The verdict</a></li>
+        <li><a href="#more"><span>14</span>Learn more</a></li>
+      </ul>
+    </nav>
+
+    <main>
+
+      <!-- 01 SPEAKERS -->
+      <section class="card" id="speakers">
+        <div class="kicker mono"><span class="num">01</span><span>The speakers &amp; Breega</span></div>
+        <h2>Three investors, <em>one scorecard.</em></h2>
+        <p class="lede">The session walked through how Breega runs due diligence, using a real deal as the thread: Wealthcome.</p>
+        <h3>Myriam Rouverand, Associate</h3>
+        <p>Myriam Rouverand backs founders from pre-seed to Series A+ in digital, climate and deeptech, across Europe and Africa. After years focused mainly on SaaS, she has recently worked on healthtech deals. Recent Breega moments she shared: the exit of <strong>Trustpair</strong> (payment fraud) to Basware, an Accel-KKR company; UK insurtech <strong>Send</strong>, whose £9M Series A Breega led in 2022, acquired by Duck Creek Technologies; and the $13.2M seed of spacetech <strong>BioOrbit</strong>, co-led with LocalGlobe.</p>
+        <h3>Ugo Varrasso, Principal</h3>
+        <p>Ugo Varrasso (Bocconi) joined Breega as Principal in September 2026 to invest from pre-seed to Series B, "from €500K to €10M, as early as it gets". He spent five years at <strong>Bpifrance Digital Venture</strong>, from intern to Senior Associate, working on deals including poolside, Alice &amp; Bob, Kovalee, Silvr, Flowdesk and Dattak. Before that he co-founded KYVC, a data platform to find investors, and was an investment banking analyst at Avolta Partners.</p>
+        <h3>Gauthier Mutschler, Analyst</h3>
+        <p>Gauthier Mutschler (ESSEC) joined Breega's investment team in September 2026. He sources and screens startups, meets founders, runs market studies and due diligence, and drafts investment memos. Before that, as a VC analyst on Bpifrance's dealflow team, he met about 150 founders, handled up to 30 startup calls a month, and mapped the French spacetech and quantum ecosystems.</p>
+        <div class="stats">
+          <div class="tile a"><span class="mono">Stage</span><span class="big">Pre-seed → B</span><span class="lbl">always lead or co-lead, with a board seat</span></div>
+          <div class="tile b"><span class="mono">Tickets</span><span class="big">€0.5–10M+</span><span class="lbl">€500K–3M at seed, €3–10M+ at Series A/B</span></div>
+          <div class="tile c"><span class="mono">Under management</span><span class="big">€700M+</span><span class="lbl">across 100+ startups backed</span></div>
+          <div class="tile d"><span class="mono">Offices</span><span class="big">3</span><span class="lbl">Paris, London, Lagos</span></div>
+        </div>
+        <div class="fin">
+          <div class="fin-card">
+            <h4>Seed fund</h4>
+            <div class="box def"><span class="mono">Thesis</span><p>Generalist, with strong conviction in deeptech, robotics, hardware and insurtech/fintech.</p></div>
+            <div class="box who"><span class="mono">Portfolio</span><p>Exotec, Alice &amp; Bob, BioOrbit, Carbon Maps, Ensol, Wecandoo, Gynéa.</p></div>
+          </div>
+          <div class="fin-card">
+            <h4>Venture fund</h4>
+            <div class="box def"><span class="mono">Thesis</span><p>Fintech and insurtech.</p></div>
+            <div class="box who"><span class="mono">Portfolio</span><p>Moneybox, Dalma, Coverflex. Recent exits: Trustpair, Neobrain.</p></div>
+          </div>
+        </div>
+        <div class="panel">
+          <span class="tag">Team &amp; geography</span>
+          <p>Breega invests in Europe (France, UK, Spain, Portugal) and Africa (for example Anda in Angola and Agenz in Morocco). The investment team is 100% former founders or early employees, supported by a <strong>Scaling Team</strong> of 8 to 10 people who help portfolio companies after the deal.</p>
+        </div>
+      </section>
+
+      <!-- 02 LOOK FOR -->
+      <section class="card orange" id="lookfor">
+        <div class="kicker mono"><span class="num">02</span><span>The thesis</span></div>
+        <h2>Five things Breega <em>looks for.</em></h2>
+        <div class="rows">
+          <div class="row"><span class="circle">1</span><div><b>A top team on the topic</b><p>Rare expertise tied to the problem, complemented by a business and execution profile.</p></div></div>
+          <div class="row"><span class="circle">2</span><div><b>An acute pain and a clear "why now"</b><p>The cost of doing nothing must be obvious, not a "nice to have".</p></div></div>
+          <div class="row"><span class="circle">3</span><div><b>Tangible defensibility</b><p>A technical or go-to-market moat, not just technology anyone can copy.</p></div></div>
+          <div class="row"><span class="circle">4</span><div><b>Traction that proves willingness to pay</b><p>Paid, renewed pilots and growing ARR, not just letters of intent.</p></div></div>
+          <div class="row"><span class="circle">5</span><div><b>A scalable, "fund returner" model</b><p>The implicit question at every discovery call: can this model generate a VC return?</p></div></div>
+        </div>
+      </section>
+
+      <!-- 03 PROCESS -->
+      <section class="card" id="process">
+        <div class="kicker mono"><span class="num">03</span><span>From first call to term sheet</span></div>
+        <h2>Six steps, <em>2 to 5 weeks.</em></h2>
+        <div class="rows">
+          <div class="row"><span class="circle">1</span><div><b>Sourcing</b><p>A qualified lead, tracked in the CRM.</p></div></div>
+          <div class="row"><span class="circle">2</span><div><b>Disco</b><p>A first 30-minute discovery call with the founders. Then an internal debrief.</p></div></div>
+          <div class="row"><span class="circle">3</span><div><b>Check</b><p>A second, 45-minute call with another partner and an associate. Then another internal debrief.</p></div></div>
+          <div class="row"><span class="circle">4</span><div><b>Jedi Council</b><p>The investment committee.</p></div></div>
+          <div class="row"><span class="circle">5</span><div><b>Exploration</b><p>Due diligence: customers, experts, competitors.</p></div></div>
+          <div class="row"><span class="circle">6</span><div><b>Term sheet</b><p>Closing the deal.</p></div></div>
+        </div>
+        <div class="takeaway"><span class="circle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><p><b>2 to 5 weeks</b>between the first call and the term sheet.</p></div>
+      </section>
+
+      <!-- 04 SCORECARD -->
+      <section class="card yellow" id="scorecard">
+        <div class="kicker mono"><span class="num">04</span><span>Due diligence</span></div>
+        <h2>Check the thesis <em>before investing.</em></h2>
+        <p class="lede">Due diligence is what happens between the investment committee's "go" and the term sheet.</p>
+        <div class="fin">
+          <div class="fin-card">
+            <h4>Why &amp; how</h4>
+            <div class="box def"><span class="mono">Why</span><p>Dig into the committee's doubts to validate or invalidate the thesis.</p></div>
+            <div class="box who"><span class="mono">How</span><p>Cross three sources: the founders, the ecosystem (customers, experts, competitors) and the documents (data room, cap table).</p></div>
+          </div>
+          <div class="fin-card">
+            <h4>Who &amp; how long</h4>
+            <div class="box def"><span class="mono">Who</span><p>The deal team: a partner, an associate who sets the work plan, and an analyst.</p></div>
+            <div class="box who"><span class="mono">How long</span><p>1 to 3 weeks. 3 to 4 days if a competing term sheet is on the table.</p></div>
+          </div>
+        </div>
+        <h3>The deliverable: an 8-pillar scorecard ending in go / no-go</h3>
+        <div class="q10">
+          <div><span class="mono">01</span><b>Team</b></div>
+          <div><span class="mono">02</span><b>Reference calls</b></div>
+          <div><span class="mono">03</span><b>Competition</b></div>
+          <div><span class="mono">04</span><b>Market</b></div>
+          <div><span class="mono">05</span><b>Business plan</b></div>
+          <div><span class="mono">06</span><b>Unit economics</b></div>
+          <div><span class="mono">07</span><b>Exit</b></div>
+          <div class="hl"><span class="mono">08</span><b>Cap table</b></div>
+        </div>
+        <div class="panel">
+          <span class="tag">Use case · Wealthcome</span>
+          <p><strong>The problem:</strong> wealth managers juggle scattered tools and a growing regulatory burden. <strong>The solution:</strong> an all-in-one platform covering aggregation, compliance, CRM and simulations. <strong>Customers:</strong> independent financial advisers, private banks and insurers. <strong>Team:</strong> three founders from the industry, since 2022.</p>
+          <p><strong>Questions left after the committee:</strong> the founders' dynamic and ability to scale; the real depth of the tech and AI layer; the competitive landscape once the historical leader weakens; realistic market share in France and potential abroad; the ability to serve large accounts. Each pillar below answers them.</p>
+        </div>
+      </section>
+
+      <!-- 05 TEAM -->
+      <section class="card" id="team">
+        <div class="kicker mono"><span class="num">05</span><span>Pillar 1 · Team &amp; execution</span></div>
+        <h2>The right team to build <em>a €1B startup?</em></h2>
+        <p class="lede">Each founder is rated on seven criteria, with a traffic-light score from green to red.</p>
+        <div class="duo">
+          <div class="mini"><h4>The seven criteria</h4><p>1 · Grit<br>2 · Resilience<br>3 · Learn fast &amp; decide quickly<br>4 · Results-oriented<br>5 · Pragmatically project the organisation<br>6 · Attract &amp; retain top talent<br>7 · Trust</p></div>
+          <div class="mini solid"><h4>Questions to ask</h4><p>"What if your co-founder left?" tests resilience.<br>"Our cheque arrives tomorrow: what do you do?" tests how they project the organisation.<br>"Will you come to us with bad news?" tests trust.</p></div>
+        </div>
+        <h3>Founders' dynamic: the DISC model</h3>
+        <p>To understand the person behind the founder, Breega runs a session with a coach from its Scaling Team, based on the DISC questionnaire, then debriefs the founders. It helps founders step back as leaders, helps Breega anticipate how the relationship will hold in hard times, and matters for performance: the dynamic between founders shapes how the company scales.</p>
+        <div class="fin">
+          <div class="fin-card"><h4>Dominance</h4><div class="box def"><span class="mono">Tasks · extravert</span><p>Immediate results, action, love of a challenge.</p></div></div>
+          <div class="fin-card"><h4>Influence</h4><div class="box def"><span class="mono">People · extravert</span><p>Enthusiasm, collaboration, recognition.</p></div></div>
+          <div class="fin-card"><h4>Conscientiousness</h4><div class="box def"><span class="mono">Tasks · introvert</span><p>Accuracy, quality, analysis.</p></div></div>
+          <div class="fin-card"><h4>Steadiness</h4><div class="box def"><span class="mono">People · introvert</span><p>Support, stability, cooperation.</p></div></div>
+        </div>
+        <div class="panel">
+          <span class="tag">Wealthcome</span>
+          <p>A trio from the industry with strong founder-market fit, all with profiles very oriented towards results and speed. The DISC session led to concrete recommendations to structure the leadership team for the long term. Point to watch: hiring senior profiles to scale.</p>
+        </div>
+      </section>
+
+      <!-- 06 REFS -->
+      <section class="card blue" id="refs">
+        <div class="kicker mono"><span class="num">06</span><span>Pillar 2 · Reference calls</span></div>
+        <h2>Do people who know the market <em>confirm the story?</em></h2>
+        <div class="duo">
+          <div class="mini"><h4>Who to call</h4><p>1 · Customers and prospects, suggested by the startup and found independently<br>2 · Sector experts: senior operators, researchers<br>3 · Competitors, through their investors<br>4 · Investors: existing ones and sector funds<br>5 · Team references: former employers and colleagues</p></div>
+          <div class="mini solid"><h4>In practice</h4><p>Start from the risks in the business plan. Source widely: about <strong>50 profiles</strong> for roughly a <strong>15% response rate</strong>. Run the calls. Extract the insights.</p></div>
+        </div>
+        <div class="panel">
+          <span class="tag">Wealthcome</span>
+          <p>Investors, experts, customers and business angels confirmed a real appetite for an alternative to the historical leader. The most-cited risk: missing the AI shift.</p>
+        </div>
+      </section>
+
+      <!-- 07 COMPETITION -->
+      <section class="card" id="competition">
+        <div class="kicker mono"><span class="num">07</span><span>Pillar 3 · Competition</span></div>
+        <h2>Who else solves this, <em>and how do you win?</em></h2>
+        <div class="duo">
+          <div class="mini"><h4>Three principles</h4><p>1 · Look beyond the competitors the founders name.<br>2 · Compare the money raised by competitors and adjacent players: are we too late?<br>3 · The real question: what is the moat?</p></div>
+          <div class="mini solid"><h4>Six moats</h4><p>Network effects · Intellectual property · Data · Switching costs · Economies of scale · Brand</p></div>
+        </div>
+        <p><strong>How:</strong> start from the founders' deck, complete it with research tools and databases, then validate with the reference calls.</p>
+        <div class="panel">
+          <span class="tag">Wealthcome</span>
+          <p>Dozens of players mapped by segment: incumbents, all-in-one challengers, niche tools and data layers. Result: one dominant but weakened historical leader, and several "competitors" that turned out to be potential customers.</p>
+        </div>
+      </section>
+
+      <!-- 08 MARKET -->
+      <section class="card green" id="market">
+        <div class="kicker mono"><span class="num">08</span><span>Pillar 4 · Market</span></div>
+        <h2>Would 1% of the market be <em>€100M of revenue?</em></h2>
+        <div class="duo">
+          <div class="mini"><span class="pct">Top-down</span><h4>Start wide, then narrow</h4><p>Market size × % that is the target × % in the geography × % truly accessible.</p></div>
+          <div class="mini solid"><span class="pct">Bottom-up</span><h4>Start from the field</h4><p>Number of potential customers × annual contract value (ACV) = potential revenue.</p></div>
+        </div>
+        <div class="takeaway"><span class="circle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><p><b>Never reuse the founders' figures</b>Always recalculate the market yourself from independent sources, then compare with theirs. Ideally, the top-down and bottom-up estimates converge.</p></div>
+        <h3>Why now? Four typical triggers</h3>
+        <div class="rows">
+          <div class="row"><span class="circle">1</span><div><b>A regulatory change</b><p>A new rule creates an obligation, and so demand. Example: mandatory e-invoicing.</p></div></div>
+          <div class="row"><span class="circle">2</span><div><b>A technological breakthrough</b><p>A new technical building block unlocks new uses. Example: LLMs.</p></div></div>
+          <div class="row"><span class="circle">3</span><div><b>A behavioural shift</b><p>Customers change their habits. Example: widespread remote work after 2020.</p></div></div>
+          <div class="row"><span class="circle">4</span><div><b>New infrastructure</b><p>What now exists makes possible what wasn't. Example: the cloud, removing the need for your own servers.</p></div></div>
+        </div>
+        <div class="panel">
+          <span class="tag">Wealthcome</span>
+          <p>The market, recalculated bottom-up from software spending in the target countries, meets Breega's threshold. The "why now": AI can shift part of the middle- and back-office payroll to software. Point to watch: France alone isn't enough, it needs Europe.</p>
+        </div>
+      </section>
+
+      <!-- 09 BP -->
+      <section class="card" id="bp">
+        <div class="kicker mono"><span class="num">09</span><span>Pillar 5 · Business plan</span></div>
+        <h2>What has to be true <em>for this to work?</em></h2>
+        <div class="duo">
+          <div class="mini"><h4>Five areas to challenge</h4><p>1 · Market and growth<br>2 · Unit economics<br>3 · Costs and hiring<br>4 · Cash, runway and milestones<br>5 · Key assumptions</p></div>
+          <div class="mini solid"><h4>In practice</h4><p><strong>Founders' BP:</strong> history, projections, assumptions and formulas; if there isn't one, rebuild it.<br><strong>Stress-test:</strong> challenge the five areas and test the key assumptions.<br><strong>Deal team BP:</strong> Breega's own version of the plan.</p></div>
+        </div>
+        <div class="panel">
+          <span class="tag">Wealthcome</span>
+          <p>A plan built by segment. Growth relies on large accounts, which are signing faster than planned. Point to watch: the pace of deployments.</p>
+        </div>
+      </section>
+
+      <!-- 10 UNIT -->
+      <section class="card orange" id="unit">
+        <div class="kicker mono"><span class="num">10</span><span>Pillar 6 · Unit economics</span></div>
+        <h2>Profitable and scalable <em>in the long run?</em></h2>
+        <h3>Calculating LTV / CAC</h3>
+        <div class="rows">
+          <div class="row"><span class="circle">1</span><div><b>Customer lifespan</b><p>How long a customer stays, measured by cohorts (1 ÷ churn overestimates it).</p></div></div>
+          <div class="row"><span class="circle">×</span><div><b>Contribution margin</b><p>Revenue per customer minus variable costs, excluding fixed costs.</p></div></div>
+          <div class="row"><span class="circle">=</span><div><b>LTV</b><p>What a customer brings in over their whole lifetime.</p></div></div>
+          <div class="row"><span class="circle">÷</span><div><b>CAC</b><p>Marketing, sales and onboarding costs ÷ new customers over the period.</p></div></div>
+          <div class="row"><span class="circle">=</span><div><b>LTV / CAC</b><p>Benchmark: about <strong>3 to 1</strong> in SaaS. Below, customers cost too much; above, you can accelerate.</p></div></div>
+        </div>
+        <h3>Other useful ratios</h3>
+        <ul class="list">
+          <li><strong>CAC payback:</strong> months needed to recover the cost of acquiring a customer.</li>
+          <li><strong>Gross margin:</strong> share of revenue left after the direct costs of service.</li>
+          <li><strong>Magic number:</strong> new ARR generated for every €1 spent on sales and marketing.</li>
+          <li><strong>Rule of 40:</strong> year-on-year growth + EBITDA margin should exceed 40%.</li>
+        </ul>
+        <div class="panel">
+          <span class="tag">Wealthcome</span>
+          <p>Recurring SaaS where the bill grows with the customer. Healthy unit economics on small firms, a longer payback on large accounts. Point to watch: financial management.</p>
+        </div>
+      </section>
+
+      <!-- 11 EXIT & CAP -->
+      <section class="card" id="exitcap">
+        <div class="kicker mono"><span class="num">11</span><span>Pillars 7 &amp; 8 · Exit and cap table</span></div>
+        <h2>Who buys it, and is the cap table <em>still motivating?</em></h2>
+        <h3>Exit: a fund's return logic</h3>
+        <div class="rows">
+          <div class="row"><span class="circle">1</span><div><b>The goal</b><p>Return <strong>3x</strong> the money to LPs in <strong>10 years</strong>.</p></div></div>
+          <div class="row"><span class="circle">2</span><div><b>The reality</b><p>Out of 20 startups: 10 fail, 8 return 1 to 3x, and 1 or 2 pay back the whole fund.</p></div></div>
+          <div class="row"><span class="circle">3</span><div><b>The mindset</b><p>Every deal must be able to return the fund on its own. So look at how comparable companies exited, and how this one could.</p></div></div>
+        </div>
+        <h3>Cap table: four things to check</h3>
+        <div class="rows">
+          <div class="row"><span class="circle">1</span><div><b>Founders' incentive</b><p>Their remaining stake after the dilution still to come.</p></div></div>
+          <div class="row"><span class="circle">2</span><div><b>The option pool (BSPCE)</b><p>5 to 10% per round, granted or still to grant.</p></div></div>
+          <div class="row"><span class="circle">3</span><div><b>Existing investors</b><p>Their quality and their ability to follow in the next rounds.</p></div></div>
+          <div class="row"><span class="circle">4</span><div><b>Room for the new investor</b><p>Enough ownership, and room to reinvest.</p></div></div>
+        </div>
+        <p><strong>In practice:</strong> ask for the cap table history since incorporation, talk to the other investors, and simulate the cap table over the next rounds.</p>
+        <div class="panel warn">
+          <span class="tag">Red flag</span>
+          <p>A cap table already unbalanced in the first rounds.</p>
+        </div>
+        <div class="panel">
+          <span class="tag">Wealthcome</span>
+          <p><strong>Exit:</strong> two credible routes, acquisition by a wealth-management, insurance or software player, or an LBO once profitable, with precedents in Europe and the US. <strong>Cap table:</strong> founders still in the majority, so highly motivated; an existing investor wanting to reinvest beyond its pro-rata, a sign of confidence; and room for a new lead.</p>
+        </div>
+      </section>
+
+      <!-- 12 STAGES -->
+      <section class="card berry" id="stages">
+        <div class="kicker mono"><span class="num">12</span><span>Expectations by stage</span></div>
+        <h2>From a bet <em>to proof.</em></h2>
+        <p class="lede">The same eight pillars, with very different bars depending on stage. "Bet" means there's nothing to verify yet. Figures are orders of magnitude, to adapt by sector.</p>
+        <div class="stage-table" role="table" aria-label="What Breega expects by stage">
+          <div class="st-row st-head" role="row"><span role="columnheader">Pillar</span><span role="columnheader">Pre-seed</span><span role="columnheader">Seed</span><span role="columnheader">Series A+</span></div>
+          <div class="st-row" role="row"><b role="rowheader">Team &amp; execution</b><span data-l="Pre-seed">Founder-market fit</span><span data-l="Seed">Top 5% executives</span><span data-l="Series A+">Ability to recruit top profiles</span></div>
+          <div class="st-row" role="row"><b role="rowheader">Reference calls</b><span data-l="Pre-seed">Experts, founder references</span><span data-l="Seed">First customers and pilots</span><span data-l="Series A+">Customers, competitors, employees</span></div>
+          <div class="st-row" role="row"><b role="rowheader">Competition</b><span class="bet" data-l="Pre-seed">Bet</span><span data-l="Seed">Moat demonstrated</span><span data-l="Series A+">Product better than competitors</span></div>
+          <div class="st-row" role="row"><b role="rowheader">Market</b><span class="bet" data-l="Pre-seed">Bet</span><span data-l="Seed">First customers who stay</span><span data-l="Series A+">Proven go-to-market</span></div>
+          <div class="st-row" role="row"><b role="rowheader">Business plan</b><span class="bet" data-l="Pre-seed">Bet</span><span data-l="Seed">Clear vision of the path</span><span data-l="Series A+">Clear roadmap to win</span></div>
+          <div class="st-row" role="row"><b role="rowheader">Unit economics</b><span data-l="Pre-seed">POC, &lt; €300K cash burn</span><span data-l="Seed">&gt; €10K MRR, &lt; €500K burn</span><span data-l="Series A+">&gt; €50K MRR, &lt; €2M burn</span></div>
+          <div class="st-row" role="row"><b role="rowheader">Exit</b><span class="bet" data-l="Pre-seed">Bet</span><span class="bet" data-l="Seed">Bet</span><span data-l="Series A+">Clear path to exit</span></div>
+          <div class="st-row" role="row"><b role="rowheader">Cap table</b><span data-l="Pre-seed">Founders &gt; 70%</span><span data-l="Seed">Founders &gt; 60%</span><span data-l="Series A+">Founders &gt; 60%</span></div>
+        </div>
+      </section>
+
+      <!-- 13 DEBRIEF -->
+      <section class="card green" id="debrief">
+        <div class="kicker mono"><span class="num">13</span><span>Use case · the debrief</span></div>
+        <h2>What convinced Breega <em>on Wealthcome.</em></h2>
+        <div class="rows">
+          <div class="row"><span class="circle">1</span><div><b>Team &amp; execution</b><p>A trio from the industry, strong founder-market fit.</p></div></div>
+          <div class="row"><span class="circle">2</span><div><b>Reference calls</b><p>A real appetite for an alternative.</p></div></div>
+          <div class="row"><span class="circle">3</span><div><b>Competition</b><p>A dominant but weakened historical leader.</p></div></div>
+          <div class="row"><span class="circle">4</span><div><b>Market</b><p>Criteria confirmed, a "why now" driven by AI.</p></div></div>
+          <div class="row"><span class="circle">5</span><div><b>Business plan</b><p>Large accounts signed ahead of plan.</p></div></div>
+          <div class="row"><span class="circle">6</span><div><b>Unit economics</b><p>Recurring SaaS, a bill that grows.</p></div></div>
+          <div class="row"><span class="circle">7</span><div><b>Exit</b><p>Strategic acquisition or LBO, with precedents.</p></div></div>
+          <div class="row"><span class="circle">8</span><div><b>Cap table</b><p>Founders in the majority, an existing investor reinvesting.</p></div></div>
+        </div>
+        <div class="pull">
+          <q>Become <em>the reference operating system</em> for wealth managers, in France then Europe.</q>
+          <span class="mono">The investment thesis on Wealthcome</span>
+        </div>
+      </section>
+
+      <!-- 14 MORE -->
+      <section class="card ink" id="more">
+        <div class="kicker mono"><span class="num">14</span><span>Keep going</span></div>
+        <h2>Want to learn more about <em>Breega?</em></h2>
+        <p class="lede">The fund, its research, and the other sessions of the bootcamp.</p>
+        <div class="links">
+          <a class="link" href="https://www.breega.com" target="_blank" rel="noopener"><div><b>Breega</b><small>The fund's website: team, portfolio and thesis.</small></div><span class="circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+          <a class="link" href="https://predictions.breega.com" target="_blank" rel="noopener"><div><b>Breega 2026 predictions</b><small>Breega's sector outlooks, including European healthtech.</small></div><span class="circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+          <a class="link" href="baby-vc-14-session-3-hexa.html"><div><b>Session 3 · Hexa</b><small>Sourcing &amp; screening with Samuel Boggio.</small></div><span class="circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+          <a class="link" href="baby-vc-14-session-5-iris.html"><div><b>Session 5 · IRIS</b><small>Growth investing &amp; due diligence with Nicolas Herschtel.</small></div><span class="circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+          <a class="link" href="baby-vc-14-session-7-raise.html"><div><b>Session 7 · RAISE</b><small>The art of getting a founder to pick you.</small></div><span class="circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+          <a class="link" href="../index.html"><div><b>All notes</b><small>Every session in one place.</small></div><span class="circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="foot">
+    <div class="mono"><span>Baby VC Bootcamp · Batch #14</span><span>Session 4</span></div>
+    <div class="credit">Notes by <em>Camille Le Bihan.</em></div>
+    <p>Session 4 of the Baby VC Bootcamp #14, given by Myriam Rouverand (Associate), Ugo Varrasso (Principal) and Gauthier Mutschler (Analyst) at Breega, on 28 October 2026.</p>
+    <div class="sub">
+      <p>More notes from the bootcamp, plus VC, finance and startup content, in my newsletter.</p>
+      <a class="sub-btn" href="https://substack.com/@camillelebihan" target="_blank" rel="noopener">Subscribe on Substack <span class="circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+    </div>
+  </footer>
+
+
+
+</div>
+
+</body>
+</html>
